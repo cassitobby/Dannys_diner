@@ -1,6 +1,6 @@
 # Case Study #1 - Danny's Diner
 
-This is the week one of the 8 Week SQL Challenge by Danny Ma. Click here to view the full challenge https://8weeksqlchallenge.com/getting-started/
+This is the week one of the 8 Week SQL Challenge by Danny Ma. [Click here to view the full challenge] (https://8weeksqlchallenge.com/getting-started/)
 
 # Introduction
 Danny seriously loves Japanese food so in the beginning of 2021, he decides to embark upon a risky venture and opens up a cute little restaurant that sells his 3 favourite foods: sushi, curry and ramen.

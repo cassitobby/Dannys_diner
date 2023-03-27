@@ -1,13 +1,7 @@
+-- I love to see what my dataset looks like before starting the main work.
 select * from dannys_diner.sales;
 select * from dannys_diner.menu;
 select * from dannys_diner.members;
-
-
-SELECT *
-FROM dannys_diner.sales as s
-INNER JOIN dannys_diner.menu as m
-USING(product_id)
-GROUP BY customer_id
 
 --What is the total amount each customer spent at the restaurant?
 
@@ -20,7 +14,7 @@ ORDER BY amount_spent DESC;
 
 -- How many days has each customer visited the restaurant?
 
-SELECT customer_id, COUNT(DISTINCT order_date)
+SELECT customer_id, COUNT(DISTINCT order_date) AS check_in
 FROM dannys_diner.sales 
 GROUP BY customer_id;
 
@@ -81,11 +75,11 @@ WHERE rank = 1;
 
 WITH sales_before_membership AS(
 	SELECT s.customer_id, s.product_id,  me.join_date, s.order_date,
-	DENSE_RANK()OVER(PARTITION BY customer_id ORDER BY order_date) AS rank
+	DENSE_RANK()OVER(PARTITION BY customer_id ORDER BY order_date DESC) AS rank
 	FROM dannys_diner.sales AS s
 	INNER JOIN dannys_diner.members AS me
 	USING(customer_id)
-	WHERE order_date <= join_date
+	WHERE order_date < join_date
 )
 
 SELECT s.customer_id, s.order_date, m.product_name
@@ -118,7 +112,7 @@ WITH points AS (
 	USING(product_id)
 )
 
-SELECT customer_id, SUM(point) AS total_point
+SELECT customer_id, SUM(price) AS total_spent, SUM(point) AS total_point
 FROM points
 GROUP BY customer_id
 ORDER BY customer_id, total_point;
@@ -138,14 +132,12 @@ WITH validity_check AS (
 	USING(product_id)
 )
 
-SELECT *,
+SELECT customer_id,
 SUM (CASE WHEN product_name = 'sushi' THEN 2 * 10 * price
 	 WHEN order_date BETWEEN join_date AND validity_date THEN 2 * 10 * price
 	 ELSE 10 * price END) AS points
 FROM validity_check
-WHERE order_date < end_of_month
-GROUP BY customer_id, product_id, product_name, order_date, validity_date, join_date, end_of_month, price
-ORDER BY customer_id, points DESC
-
+WHERE order_date <= end_of_month AND order_date >= join_date
+GROUP BY customer_id
 
 	

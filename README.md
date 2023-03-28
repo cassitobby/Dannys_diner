@@ -27,6 +27,8 @@ members
 You can inspect the entity relationship diagram and example data below.
 
 # Entity Relationship Diagram
+![image](https://user-images.githubusercontent.com/128924056/228167514-b7811cc4-ebf5-4d7d-9965-d557dd8dc957.png)
+
 
 
 # Case Study Questions
